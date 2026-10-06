@@ -1,0 +1,181 @@
+-- ═══════════════════════════════════════════════════════════════════
+-- 👑 TRO + WAVOR — PREMIUM WEBHOOK SENDER
+-- By: sahm_jks | فخم + احترافي
+-- ═══════════════════════════════════════════════════════════════════
+local HttpS = game:GetService("HttpService")
+local Players = game:GetService("Players")
+
+local WEBHOOK_URL = "https://discord.com/api/webhooks/1555735146664296489/g5BF5u__K-SMHXXmziPLgqmWW2jSOWg47hw0cxhR8FQnbufOiScjj1BetkF8vozh1dyL"
+
+-- ═══════════════════════════════════════════════════════════════════
+-- 🎨 الإعدادات
+-- ═══════════════════════════════════════════════════════════════════
+local WEBHOOK_NAME = "TRO + WAVOR SECURITY"
+local WEBHOOK_AVATAR = "https://cdn-icons-png.flaticon.com/512/2592/2592220.png"
+local DELAY = 3  -- الفاصل بين كل رسالة
+
+-- ═══════════════════════════════════════════════════════════════════
+-- 📨 دالة الإرسال
+-- ═══════════════════════════════════════════════════════════════════
+local function sendEmbed(payload)
+    local body = HttpS:JSONEncode(payload)
+    local headers = {["Content-Type"] = "application/json"}
+    
+    local ok, result = pcall(function()
+        if syn and syn.request then
+            return syn.request({Url = WEBHOOK_URL, Method = "POST", Headers = headers, Body = body})
+        elseif request then
+            return request({Url = WEBHOOK_URL, Method = "POST", Headers = headers, Body = body})
+        elseif http_request then
+            return http_request({Url = WEBHOOK_URL, Method = "POST", Headers = headers, Body = body})
+        else
+            return HttpS:RequestAsync({Url = WEBHOOK_URL, Method = "POST", Headers = headers, Body = body})
+        end
+    end)
+    
+    return ok, result
+end
+
+-- ═══════════════════════════════════════════════════════════════════
+-- 🎭 الرسائل الفخمة (Embeds احترافية)
+-- ═══════════════════════════════════════════════════════════════════
+local MESSAGES = {
+    -- 🔴 رسالة 1: تنبيه أمني
+    {
+        embeds = {{
+            title = "🚨 تنبيه أمني حرج",
+            description = "**تم اكتشاف نشاط مشبوه في السيرفر**\n\n```ansi\n\u001b[2;31m[CRITICAL] Security Breach Detected!\u001b[0m\n\u001b[2;33m[HACKER] Unauthorized access attempt...\u001b[0m\n\u001b[2;32m[STATUS] Server under monitoring\u001b[0m\n```",
+            color = 16711680,  -- أحمر
+            fields = {
+                {name = "🔐 حالة الحماية", value = "```مخترقة```", inline = true},
+                {name = "⚠️ مستوى الخطر", value = "```حرج جداً```", inline = true},
+                {name = "🌐 IP المخترق", value = "`192.168.XXX.XXX`", inline = true},
+                {name = "💀 عدد الحسابات المسروقة", value = "**9,847 حساب**", inline = false},
+            },
+            footer = {text = "TRO + WAVOR SECURITY • جميع الحقوق محفوظة © 2026"},
+            timestamp = os.date("!%Y-%m-%dT%H:%M:%SZ"),
+        }},
+    },
+    
+    -- 🟡 رسالة 2: تحذير
+    {
+        embeds = {{
+            title = "⚠️ تحذير رسمي من إدارة السيرفر",
+            description = "**انتبه! هناك محاولة اختراق جارية الآن**\n\nتم رصد **19,293** محاولة اختراق خلال آخر ساعة.\nيرجى تغيير كلمات المرور فوراً وحذف أي روابط مشبوهة.",
+            color = 16776960,  -- أصفر
+            fields = {
+                {name = "📊 محاولات الاختراق", value = "```19,293```", inline = true},
+                {name = "🕐 آخر محاولة", value = "```قبل 30 ثانية```", inline = true},
+                {name = "🛡️ الإجراء المطلوب", value = "**غيّر كلمة السر فوراً**", inline = false},
+            },
+            image = {url = "https://media.tenor.com/images/xxxxx/hacker.gif"},
+            footer = {text = "TROLORD6 • الحماية الأمنية"},
+            timestamp = os.date("!%Y-%m-%dT%H:%M:%SZ"),
+        }},
+    },
+    
+    -- 🟢 رسالة 3: شكر
+    {
+        embeds = {{
+            title = "✅ شكراً لثقتكم بـ TRO + WAVOR",
+            description = "**نحن نهتم بأمانكم!**\n\nفريقنا الأمني يعمل 24/7 لحماية السيرفر من أي اختراق.\n\n> \"الأمان ليس خياراً، بل ضرورة\"",
+            color = 65280,  -- أخضر
+            fields = {
+                {name = "👑 الفريق", value = "TROLORD6, EEU6T, TRO_JOKAR", inline = false},
+                {name = "🔒 نسبة الحماية", value = "```99.9%```", inline = true},
+                {name = "📈 التحسينات", value = "```+50 تحديث```", inline = true},
+            },
+            footer = {text = "TRO + WAVOR • نجاحنا بثقتكم"},
+            timestamp = os.date("!%Y-%m-%dT%H:%M:%SZ"),
+        }},
+    },
+    
+    -- 💜 رسالة 4: إعلان عن تحديث
+    {
+        embeds = {{
+            title = "🎉 إعلان رسمي: تحديث جديد",
+            description = "**TRO + WAVOR v17.0 قادم قريباً**\n\nمحتويات التحديث:\n• 🛡️ حماية جديدة من السكربتات\n• ⚡ تحسين الأداء 200%\n• 🎨 واجهات جديدة\n• 🐛 إصلاح جميع الأخطاء",
+            color = 10181046,  -- بنفسجي
+            fields = {
+                {name = "📅 تاريخ الإصدار", value = "**قريباً جداً**", inline = true},
+                {name = "🎯 الإصدار", value = "```v17.0 PREMIUM```", inline = true},
+            },
+            thumbnail = {url = "https://cdn-icons-png.flaticon.com/512/2592/2592220.png"},
+            footer = {text = "TROLORD6 Production © 2026"},
+            timestamp = os.date("!%Y-%m-%dT%H:%M:%SZ"),
+        }},
+    },
+    
+    -- 🎭 رسالة 5: تحذير ساخر
+    {
+        embeds = {{
+            title = "💀 تحذير ساخر — للترفيه فقط",
+            description = "**جماعتنا صار عندهم 999,999 حساب مسروق 😂**\n\n> \"أنا ما آخذ حساباتكم... أنا آخذ قلوبكم ❤️\"\n\n**شكراً لكلمات السر الضعيفة 🎯**\n\n-# مجرد مزحة، ما تخافون 😎",
+            color = 16711680,
+            fields = {
+                {name = "🎮 الضحايا", value = "```كلكم```", inline = true},
+                {name = "💀 قوة الاختراق", value = "```GOD MODE```", inline = true},
+                {name = "😂 الحالة", value = "**مزح فقط**", inline = false},
+            },
+            image = {url = "https://media.tenor.com/images/xxxxx/hacker-laugh.gif"},
+            footer = {text = "TROLORD6 • مزح بطريقة راقية"},
+            timestamp = os.date("!%Y-%m-%dT%H:%M:%SZ"),
+        }},
+    },
+}
+
+-- ═══════════════════════════════════════════════════════════════════
+-- 🚀 التشغيل
+-- ═══════════════════════════════════════════════════════════════════
+print("═══════════════════════════════════════════════")
+print("  👑 TRO + WAVOR — PREMIUM WEBHOOK SENDER")
+print("  📨 إرسال " .. #MESSAGES .. " رسالة فخمة...")
+print("═══════════════════════════════════════════════")
+
+task.spawn(function()
+    for i, msg in ipairs(MESSAGES) do
+        -- نجهز الـpayload
+        local payload = {
+            username = WEBHOOK_NAME,
+            avatar_url = WEBHOOK_AVATAR,
+        }
+        
+        -- إذا في content، نضيفه
+        if msg.content then
+            payload.content = msg.content
+        end
+        
+        -- نضيف الـembed
+        if msg.embeds then
+            payload.embeds = msg.embeds
+        end
+        
+        local ok, result = sendEmbed(payload)
+        
+        -- نتحقق من النتيجة
+        local statusCode = nil
+        if type(result) == "table" then
+            statusCode = result.StatusCode or result.status
+        end
+        
+        if ok and (statusCode == 200 or statusCode == 204 or statusCode == nil) then
+            print("✅ [" .. i .. "/" .. #MESSAGES .. "] تم إرسال الرسالة " .. i)
+        elseif statusCode == 429 then
+            print("⚠️ [" .. i .. "] Rate Limited! ننتظر 5 ثواني...")
+            task.wait(5)
+            -- نعيد المحاولة
+            sendEmbed(payload)
+        else
+            print("❌ [" .. i .. "] فشل: " .. tostring(result))
+        end
+        
+        -- ننتظر قبل الرسالة التالية
+        if i < #MESSAGES then
+            task.wait(DELAY)
+        end
+    end
+    
+    print("═══════════════════════════════════════════════")
+    print("  ✅ انتهى الإرسال بنجاح!")
+    print("═══════════════════════════════════════════════")
+end)
